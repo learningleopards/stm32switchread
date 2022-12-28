@@ -93,55 +93,93 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
   GPIO_PinState state;
   GPIO_PinState state1;
   GPIO_PinState state2;
-
+  GPIO_PinState state3;
+  GPIO_PinState state4;
   while (1)
   {
     /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-
 	  state = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0);
-	  state1 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
-	  state2 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
+	  	  state1 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
+	  	  state2 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
+	  	  state3 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_3);
+	  	  state4 = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_4);
 
-	  if(!state){
 
-	  	if(state1 == 1){
 
-	  for (int i=0; i<6; i++) {			//move left
-		  GPIOB->ODR = (1<<i);
-		  HAL_Delay(150);
-		  GPIOB->ODR = 0;
+	  	  if(!state1 && !state2 && !state3 && !state4){
+
+	  	  for (int i=0; i<6; i++) {			//move left
+	  		  GPIOB->ODR = (1<<i);
+	  		  HAL_Delay(2000);
+	  		  GPIOB->ODR = 0;
+	  	  	  }
+
+	  	  for (int i=5; i>=0; i--){			//move right
+	  		  GPIOB->ODR = (1<<i);
+	  		  HAL_Delay(2000);
+	  		  GPIOB->ODR = 0;
+	  	  }
+	      }
+	  	  if(!state){
+	  	  	if(!state1 && !state2 && state3 && !state4)
+	  	  		{
+	  	  				for (int i=0; i<6; i++) {			//move left
+	  	  			  	GPIOB->ODR = (1<<i);
+	  	  			  	HAL_Delay(1000);
+	  	  			    GPIOB->ODR = 0;
+	  	  			}
+
+	  	  			  	for (int i=5; i>=0; i--){			//move right
+	  	  			  	GPIOB->ODR = (1<<i);
+	  	  			  	HAL_Delay(1000);
+	  	  			  	GPIOB->ODR = 0;
+	  	  			  }
+	  	  		}
 	  	  }
 
-	  for (int i=5; i>=0; i--){			//move right
-		  GPIOB->ODR = (1<<i);
-		  HAL_Delay(150);
-		  GPIOB->ODR = 0;
-	  }
-    }
 
-	  	if(state2 == 1)
-	  		{
-	  				for (int i=0; i<6; i++) {			//move left
-	  			  	GPIOB->ODR = (1<<i);
-	  			  	HAL_Delay(500);
-	  			    GPIOB->ODR = 0;
-	  			}
+	  	if(!state){
+	  	  if(!state1 && state2 && !state3 && !state4)
+	  	  	  	  		{
+	  	  	  	  				for (int i=0; i<6; i++) {			//move left
+	  	  	  	  			  	GPIOB->ODR = (1<<i);
+	  	  	  	  			  	HAL_Delay(300);
+	  	  	  	  			    GPIOB->ODR = 0;
+	  	  	  	  			}
 
-	  			  	for (int i=5; i>=0; i--){			//move right
-	  			  	GPIOB->ODR = (1<<i);
-	  			  	HAL_Delay(500);
-	  			  	GPIOB->ODR = 0;
-	  			  }
-	  		}
-	  }
+	  	  	  	  			  	for (int i=5; i>=0; i--){			//move right
+	  	  	  	  			  	GPIOB->ODR = (1<<i);
+	  	  	  	  			  	HAL_Delay(300);
+	  	  	  	  			  	GPIOB->ODR = 0;
+	  	  	  	  			  }
+	  	  	  	  		}
+	  	}
+
+	  	if(!state){
+	  	 if(state1 && state2 && state3 && state4)
+	  		  	  	  	  		{
+	  		  	  	  	  				for (int i=0; i<6; i++) {			//move left
+	  		  	  	  	  			  	GPIOB->ODR = (1<<i);
+	  		  	  	  	  			  	HAL_Delay(50);
+	  		  	  	  	  			    GPIOB->ODR = 0;
+	  		  	  	  	  			}
+
+	  		  	  	  	  			  	for (int i=5; i>=0; i--){			//move right
+	  		  	  	  	  			  	GPIOB->ODR = (1<<i);
+	  		  	  	  	  			  	HAL_Delay(50);
+	  		  	  	  	  			  	GPIOB->ODR = 0;
+	  		  	  	  	  			  }
+	  		  	  	  	  		}
+	  	  }
 
 
+
+
+    /* USER CODE BEGIN 3 */
+  }
   /* USER CODE END 3 */
 }
 
@@ -244,8 +282,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, LED0_Pin|LED1_Pin|LED2_Pin|LED3_Pin
                           |LED4_Pin|LED5_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PUSHBUTTON_Pin DIP1_Pin DIP2_Pin */
-  GPIO_InitStruct.Pin = PUSHBUTTON_Pin|DIP1_Pin|DIP2_Pin;
+  /*Configure GPIO pins : PUSHBUTTON_Pin DIP1_Pin DIP2_Pin DIP3_Pin
+                           DIP4_Pin */
+  GPIO_InitStruct.Pin = PUSHBUTTON_Pin|DIP1_Pin|DIP2_Pin|DIP3_Pin
+                          |DIP4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
